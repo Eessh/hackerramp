@@ -49,6 +49,14 @@ form.addEventListener("submit", async (event) => {
             gender: gender
         });
 
+        await setDoc(doc(db, "users", email), {
+            coins: {
+                silver: 0,
+                gold: 0,
+                platinum: 0
+            }
+        });
+
         // try {
         //     const docRef = await addDoc(collection(db, "gender"), {
         //         "email": email,
