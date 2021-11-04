@@ -145,21 +145,21 @@ const getCoins = (fetchedCoins, bill) => {
     let silver = fetchedCoins.silver;
     let gold = fetchedCoins.gold;
     let platinum = fetchedCoins.platinum;
-    if (100 <= z && z <= 499) {
+    if (z <= 499) {
         silver += z;
     }
     else if (500 <= z && z <= 1999) {
-        silver += (5/14)*z;
-        gold += (3/14)*z
+        silver += (5*z)/14;
+        gold += (3*z)/14;
     }
     else if (2000 <= z && z <= 5999) {
-        silver += (4/25)*z
-        gold += (3/25)*z
-        platinum += (2/25)*z
+        silver += (4*z)/25;
+        gold += (3*z)/25;
+        platinum += (2*z)/25;
     }
     else if (6000 <= z && z <= 14999) {
-        gold += (5/33)*z
-        platinum += (3/33)*z
+        gold += (5*z)/33;
+        platinum += (3*z)/33;
     }
     else {
         platinum += z/6;
