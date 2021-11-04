@@ -5,8 +5,9 @@
 }
 
 .wrapper {
-    width: 100vw;
-    min-height: 100vh;
+    position: relative;
+    width: 100%;
+    min-height: 100%;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -308,22 +309,54 @@
 
 
 .popup-background {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(255, 105, 180, 0.568);
+    visibility: hidden !important;
+    position: absolute !important;
+    /* display: none !important; */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 105, 180, 0.3);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
 .popup {
-    width: 20%;
-    height: 20%;
-    border-radius: 10%;
+    /* position: absolute;
+    left: 50%;
+    top: 50%; */
+    width: 40%;
+    height: 40%;
+    border-radius: 1rem;
     background-color: lightpink;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
-.popup-background,
-.popup {
-    display: none !important;
+.popup-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    /* align-items: center; */
+    justify-content: space-between;
+}
+.popup-title,
+.popup-close {
+    padding: 1rem;
+}
+.popup-body {
+    flex: 1;
+}
+
+/* Utility Classes */
+.cursor-pointer {
+    cursor: pointer !important;
+}
+.popup-show {
+    visibility: visible !important;
+    /* display: block !important; */
+}
+.popup-hide {
+    visibility: hidden !important;
+    /* display: none !important; */
 }

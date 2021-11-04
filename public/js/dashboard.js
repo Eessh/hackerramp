@@ -92,3 +92,44 @@ const convertCoins = (initCoins, from, to) => {
     }
     return initCoins;
 }
+
+// window.onload(() => {
+//     const convertCoinsButton = document.getElementById("convert-coins");
+//     const popupBackground = document.querySelector(".popup-background");
+//     const popupVisible = false;
+//     convertCoinsButton.addEventListener("click", () => {
+//         if (!popupVisible) popupBackground.classList.add("popup-show");
+//         console.log("clicked: ConvertCoins")
+//     })
+//     popupBackground.addEventListener("click", (e) => {
+//         e.preventDefault();
+//         if (popupVisible) popupBackground.classList.add("popup-hide");
+//     });
+// });
+
+
+const showPopup = (e) => {
+    e.preventDefault();
+    popupBackground.classList.replace("popup-hide", "popup-show");
+    // popup.classList.add("popup-show");
+    console.log("clicked: ConvertCoins");
+};
+const hidePopup = (e) => {
+    e.preventDefault();
+    if (e.traget !== document.querySelector(".popup")) {
+        popupBackground.classList.replace("popup-show", "popup-hide");
+        // popup.classList.add("popup-hide");
+        console.log("clicked: PopupBackground");
+    }
+};
+const convertCoinsButton = document.getElementById("convert-coins");
+const popupBackground = document.querySelector(".popup-background");
+const popup = document.querySelector(".popup");
+const popupClose = document.querySelector(".popup-close");
+convertCoinsButton.addEventListener("click", showPopup);
+// popupBackground.addEventListener("click", hidePopup);
+popupClose.addEventListener("click", hidePopup);
+// popup.addEventListener("click", (e) => {
+//     e.preventDefault();
+//     console.log("hehe: blocked event");
+// });
