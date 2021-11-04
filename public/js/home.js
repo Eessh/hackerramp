@@ -173,7 +173,7 @@ const getCoins = (fetchedCoins, bill) => {
 
 
 const getSilverCoins = (bill) => {
-    const silver = 0
+    let silver = 0
     if (100 <= bill && bill < 500) {
         silver = bill/10
     }
