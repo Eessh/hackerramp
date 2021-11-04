@@ -25,6 +25,24 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const auth = getAuth();
 
+const defaults = {
+    coins: {
+        silver: 0,
+        gold: 0,
+        platinum: 0
+    },
+    colors: {
+        shirt: "lightpink",
+        pant: "purple",
+        shoes: "skyblue"
+    },
+    levels: {
+        shirt: 1,
+        pant: 1,
+        shoes: 1
+    }
+}
+
 
 const form = document.getElementById("form")
 form.addEventListener("submit", async (event) => {
@@ -49,30 +67,7 @@ form.addEventListener("submit", async (event) => {
             gender: gender
         });
 
-        await setDoc(doc(db, "users", email), {
-            coins: {
-                silver: 0,
-                gold: 0,
-                platinum: 0
-            }
-        });
-
-        // try {
-        //     const docRef = await addDoc(collection(db, "gender"), {
-        //         "email": email,
-        //         "gender": gender,
-        //     });
-        //     console.log("Document written with ID: ", docRef.id);
-        // }
-        // catch (error) {
-        //     console.log("Error: ", error);
-        // }
-
-        // await addDoc(collection(db, "gender"), {
-        //     email: email,
-        //     gender: gender,
-        // })
-        // .then((docRef) => console.log("Document written with ID: ", docRef.id));
+        await setDoc(doc(db, "users", email), defaults);
 
     })
     .catch((error) => {
@@ -83,12 +78,3 @@ form.addEventListener("submit", async (event) => {
         // ..
     });
 });
-
-const addGenderToStore = async (database, collection, document) => {
-    return new Promise((resolve, reject) => {
-        resolve(setDoc(doc(db, "gender", email), {
-            gender: gender
-        }))
-    })
-    // await setDoc(doc(database, collection, document.name), document.fields);
-}

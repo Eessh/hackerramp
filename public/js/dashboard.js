@@ -23,6 +23,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
 let currentUser;
+let currentGender;
+let currentCoins;
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -38,9 +40,19 @@ onAuthStateChanged(auth, async (user) => {
 
       const fetchedCoins = await fetchCoins();
       setCoins(fetchedCoins);
+      currentCoins = fetchedCoins;
+      console.log("currentCoins: ", currentCoins);
 
       if (sanpshot.exists()) {
         console.log("Document data:", sanpshot.data());
+        currentGender = sanpshot.data().gender;
+        console.log("currentGender: ", currentGender);
+        // const leftpane = document.querySelector(".leftpane")
+        const boiSVG = document.querySelector(".boi-svg");
+        const galSVG = document.querySelector(".gal-svg");
+        currentGender === "male"
+        ? boiSVG.classList.replace("hide-element", "show-element")
+        : boiSVG.classList.replace("hide-element", "show-element");
       }
       else {
         // doc.data() will be undefined in this case
@@ -133,3 +145,64 @@ popupClose.addEventListener("click", hidePopup);
 //     e.preventDefault();
 //     console.log("hehe: blocked event");
 // });
+
+
+const colors = {
+    shirt: "red",
+    pant: "blue",
+    shoes: "green"
+}
+let paths = document.querySelectorAll("paths");
+const shirtPaths = document.querySelectorAll("#shirt");
+const shoePaths = document.querySelectorAll("#shoes");
+const pantPaths = document.querySelectorAll("#pant");
+shirtPaths.forEach((path) => {
+    path.setAttribute("style", "fill: cyan");
+})
+shoePaths.forEach((path) => {
+    path.setAttribute("style", "fill: blue");
+});
+pantPaths.forEach((path) => {
+    path.setAttribute("style", "fill: red");
+});
+// paths[18].setAttribute("fill", colors.shoes);
+
+const goldToSilver = document.getElementById("gold-silver")
+const platinumToSilver = document.getElementById("platinum-silver")
+const platinumToGold = document.getElementById("platinum-gold")
+goldToSilver.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (currentCoins.gold > 0) {
+        console.log("converting: gold -> silver ...");
+        currentCoins = convertCoins(currentCoins, "gold", "silver");
+        await setDoc(doc(db, "users", currentUser.email), {
+            coins: currentCoins
+        });
+        setCoins(currentCoins);
+        console.log("done");
+    }
+});
+platinumToSilver.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (currentCoins.platinum > 0) {
+        console.log("converting: platinum -> silver ...");
+        currentCoins = convertCoins(currentCoins, "platinum", "silver");
+        await setDoc(doc(db, "users", currentUser.email), {
+            coins: currentCoins
+        });
+        setCoins(currentCoins);
+        console.log("done");
+    }
+});
+platinumToGold.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (currentCoins.platinum > 0) {
+        console.log("converting: platinum -> gold ...");
+        currentCoins = convertCoins(currentCoins, "platinum", "gold");
+        await setDoc(doc(db, "users", currentUser.email), {
+            coins: currentCoins
+        });
+        setCoins(currentCoins);
+        console.log("done");
+    }
+});
