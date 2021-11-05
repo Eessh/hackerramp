@@ -69,6 +69,8 @@ form.addEventListener("submit", async (event) => {
 
         await setDoc(doc(db, "users", email), defaults);
 
+        window.location.replace("../home.html");
+
     })
     .catch((error) => {
         const errorCode = error.code;

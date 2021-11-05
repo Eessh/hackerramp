@@ -5,7 +5,7 @@ import {
     signInWithEmailAndPassword,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js";
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -25,17 +25,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
-let currentUser;
 
-const getCurrentUser = () => {
-    const user = auth.currentUser;
-    if (user) {
-        console.log(auth.currentUser);
-    }
-    else {
-        console.log("not user detected !!!");
-    }
-}
+
+let currentUser;
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -133,7 +125,7 @@ form.addEventListener("submit", async (event) => {
     document.getElementById("gold-coins").innerHTML = coins.gold;
     document.getElementById("platinum-coins").innerHTML = coins.platinum;
 
-    await setDoc(doc(db, "users", currentUser.email), {
+    await updateDoc(doc(db, "users", currentUser.email), {
         coins: coins,
     });
 })
