@@ -170,11 +170,11 @@
                         </div>
                         <div class="progress-bar-wrapper">
                             <span class="progress-bar">
-                                <span class="progress-bar-fg-1"></span>
+                                <span class="progress-bar-fg-1" id="shirt-progress-bar"></span>
                             </span>
                         </div>
                         <div class="progress-level-wrapper">
-                            <span class="progress-level">4</span>
+                            <span class="progress-level" id="shirt-level">4</span>
                             <span class="upgrade-icon">
                                 <svg width="24" height="24" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
@@ -188,11 +188,11 @@
                         </div>
                         <div class="progress-bar-wrapper">
                             <span class="progress-bar">
-                                <span class="progress-bar-fg-2"></span>
+                                <span class="progress-bar-fg-2" id="pant-progress-bar"></span>
                             </span>
                         </div>
                         <div class="progress-level-wrapper">
-                            <span class="progress-level">6</span>
+                            <span class="progress-level" id="pant-level">6</span>
                             <span class="upgrade-icon">
                                 <svg width="24" height="24" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
@@ -206,11 +206,11 @@
                         </div>
                         <div class="progress-bar-wrapper">
                             <span class="progress-bar">
-                                <span class="progress-bar-fg-3"></span>
+                                <span class="progress-bar-fg-3" id="shoes-progress-bar"></span>
                             </span>
                         </div>
                         <div class="progress-level-wrapper">
-                            <span class="progress-level">3</span>
+                            <span class="progress-level" id="shoes-level">3</span>
                             <span class="upgrade-icon">
                                 <svg width="24" height="24" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
@@ -218,7 +218,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="progress">
+                    <!-- <div class="progress">
                         <div class="progress-label-wrapper">
                             <span class="progress-label">Cap</span>
                         </div>
@@ -235,7 +235,7 @@
                                 </svg>
                             </span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="right-bottom"></div>
             </div>
@@ -243,7 +243,7 @@
 
         <!-- Popup -->
         <div class="popup-background popup-hide">
-            <div class="popup">
+            <div class="popup popup-hide">
                 <div class="popup-bar">
                     <span class="popup-title">Convert Coins</span>
                     <span class="popup-close cursor-pointer">
@@ -316,6 +316,22 @@
                             </svg>
                         </span>
                     </span>
+                </div>
+            </div>
+            <div class="confirm-popup popup-hide">
+                <div class="popup-bar">
+                    <span class="popup-title">Confirm</span>
+                    <span class="popup-close cursor-pointer">
+                        <svg width="24" height="24" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                        </svg>
+                    </span>
+                </div>
+                <div class="popup-body">
+                    <p>
+                        You will get <span class="confirm-to-coins-value"></span> <span class="confirm-to-coins"></span> coins, from <span class="confirm-from-coins-value"></span> <span class="confirm-from-coins"></span>
+                    </p>
+                    <button class="confirm-button">Proceed</button>
                 </div>
             </div>
         </div>

@@ -32,14 +32,14 @@ const defaults = {
         platinum: 0
     },
     colors: {
-        shirt: "lightpink",
-        pant: "purple",
-        shoes: "skyblue"
+        shirt: "gray",
+        pant: "black",
+        shoes: "black"
     },
     levels: {
-        shirt: 1,
-        pant: 1,
-        shoes: 1
+        shirt: 0,
+        pant: 0,
+        shoes: 0
     }
 }
 
