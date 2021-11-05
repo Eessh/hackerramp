@@ -52,7 +52,7 @@ onAuthStateChanged(auth, async (user) => {
         const galSVG = document.querySelector(".gal-svg");
         currentGender === "male"
         ? boiSVG.classList.replace("hide-element", "show-element")
-        : boiSVG.classList.replace("hide-element", "show-element");
+        : galSVG.classList.replace("hide-element", "show-element");
       }
       else {
         // doc.data() will be undefined in this case
