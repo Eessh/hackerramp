@@ -147,11 +147,6 @@ popupClose.addEventListener("click", hidePopup);
 // });
 
 
-const colors = {
-    shirt: "red",
-    pant: "blue",
-    shoes: "green"
-}
 let paths = document.querySelectorAll("paths");
 const shirtPaths = document.querySelectorAll("#shirt");
 const shoePaths = document.querySelectorAll("#shoes");
