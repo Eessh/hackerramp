@@ -339,7 +339,7 @@ confirmButton.addEventListener("click", async (e) => {
     const to = CurrentUser.lastSelectedTransaction.to;
     console.log("converting: gold -> silver ...");
     CurrentUser.coins = convertCoins(CurrentUser.coins, from, to);
-    await setDoc(doc(db, "users", CurrentUser.email), {
+    await updateDoc(doc(db, "users", CurrentUser.email), {
         coins: CurrentUser.coins
     });
     setCoins(CurrentUser.coins);
