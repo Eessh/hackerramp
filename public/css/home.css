@@ -24,8 +24,12 @@
     align-items: center;
     justify-content: space-between;
 }
-.navbar > a {
+.navbar > a,
+.navbar > span > a {
     padding: 2rem;
+}
+.tray {
+    padding: 1rem;
 }
 .logo,
 .dashboardlink {
@@ -45,6 +49,16 @@
 .dashboardlink:hover {
     background-color: lightpink;
     border-radius: 0.5rem;
+}
+.logout {
+    margin-right: 2rem !important;
+    padding: 1rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease-in-out !important;
+}
+.logout:hover {
+    background-color: lightpink !important;
+    border-radius: 1rem !important;
 }
 
 .main {
@@ -190,6 +204,7 @@ footer {
     transform: scale(1.4);
 }
 .navbar > a,
+.navbar > span > a,
 .icons > span > a,
 .navbar > a:hover,
 .icons > span > a:hover {

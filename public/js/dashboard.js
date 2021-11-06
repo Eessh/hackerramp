@@ -1,7 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js";
 import {
     getAuth,
-    onAuthStateChanged
+    onAuthStateChanged,
+    signOut
 } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
 import { getFirestore, doc, collection, getDoc, getDocs, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js"
 
@@ -78,10 +79,26 @@ let Info = {
         shoes: 3
     },
     rewards: {
-        level_1: {},
-        level_2: {},
-        level3: {},
-        level_4: {}
+        level_1: {
+            title: "Yay! You have cleared Level 1",
+            desc: "",
+            coupon: 1
+        },
+        level_2: {
+            title: "Yay! You have cleared Level 2",
+            desc: "",
+            coupon: 2
+        },
+        level3: {
+            title: "Yay! You have cleared Level 3",
+            desc: "",
+            coupon: 3
+        },
+        level_4: {
+            title: "Congrats! You have completed the game",
+            desc: "",
+            coupon: 4
+        }
     },
     upgrades: {
         shirt: {
@@ -171,6 +188,7 @@ onAuthStateChanged(auth, async (user) => {
         setAvatharColors();
         setLevels();
         setProgressBars();
+        updateCoinsForNextLevel();
       }
       else {
           console.log("No such document!");
@@ -210,6 +228,26 @@ onAuthStateChanged(auth, async (user) => {
       console.log("unable to retireve user");
     }
 })();
+
+const homeBtn = document.querySelector(".home");
+homeBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    window.location.replace("../home.html");
+})
+
+const logoutBtn = document.querySelector(".logout");
+logoutBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    console.log("loggin out ...")
+    signOut(auth).then(() => {
+        window.location.replace("../login.html");
+        console.log("done");
+        // Sign-out successful.
+    }).catch((error) => {
+        // An error happened.
+        console.log("Error occured when sigining out");
+    });
+})
 
 const setCoins = () => {
     document.getElementById("silver-coins").innerHTML = CurrentUser.coins.silver;
@@ -480,6 +518,10 @@ const showUpgradePopup = (component) => {
         document.getElementById("upgrade-platinum-coins").innerHTML = upgradeCoins.platinum;
     }
 }
+const hideUpgradePopup = () => {
+    upgradePopup.classList.replace("popup-show", "popup-hide");
+    popupBackground.classList.replace("popup-show", "popup-hide");
+}
 
 const upgradeComponent = async (component, coinType) => {
     console.log("recieved: component=", component, ", coinType=", coinType);
@@ -516,6 +558,7 @@ const upgradeComponent = async (component, coinType) => {
     setAvatharColors();
     setLevels();
     setProgressBars();
+    updateCoinsForNextLevel();
 }
 
 const getUpgradeCoins = (component, currentLevel) => {
@@ -549,6 +592,7 @@ upgradeWithSilverBtn.addEventListener("click", async (e) => {
         console.log("coins: ", CurrentUser.coins);
         console.log("upgradeCoins: ", upgradeCoins);
     }
+    hideUpgradePopup();
 });
 upgradeWithGoldBtn.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -563,6 +607,7 @@ upgradeWithGoldBtn.addEventListener("click", async (e) => {
         console.log("coins: ", CurrentUser.coins);
         console.log("required gold coins: ", upgradeCoins.gold);
     }
+    hideUpgradePopup();
 });
 upgradeWithPlatinumBtn.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -572,6 +617,7 @@ upgradeWithPlatinumBtn.addEventListener("click", async (e) => {
         await upgradeComponent(CurrentUser.lastSelectedUpgrade, "platinum");
     }
     else console.log("no enough coins :(");
+    hideUpgradePopup();
 });
 
 const getComponentLevel = (component) => {
@@ -579,6 +625,35 @@ const getComponentLevel = (component) => {
     else if (component === "pant") return CurrentUser.levels.pant;
     else return CurrentUser.levels.shoes;
 }
+
+const updateCoinsForNextLevel = () => {
+    const shirtSilver = document.getElementById("silver-coins-for-next-level-shirt")
+    const shirtGold = document.getElementById("gold-coins-for-next-level-shirt")
+    const shirtPlatinum = document.getElementById("platinum-coins-for-next-level-shirt")
+    const pantSilver = document.getElementById("silver-coins-for-next-level-pant")
+    const pantGold = document.getElementById("gold-coins-for-next-level-pant")
+    const pantPlatinum = document.getElementById("platinum-coins-for-next-level-pant")
+    const shoesSilver = document.getElementById("silver-coins-for-next-level-shoes")
+    const shoesGold = document.getElementById("gold-coins-for-next-level-shoes")
+    const shoesPlatinum = document.getElementById("platinum-coins-for-next-level-shoes")
+
+    const shirtUpgradeCoins = getUpgradeCoins("shirt", CurrentUser.levels.shirt);
+    shirtSilver.innerHTML = shirtUpgradeCoins.silver ? shirtUpgradeCoins.silver : "--";
+    shirtGold.innerHTML = shirtUpgradeCoins.gold ? shirtUpgradeCoins.gold : "--";
+    shirtPlatinum.innerHTML = shirtUpgradeCoins.platinum ? shirtUpgradeCoins.platinum : "--";
+
+    const pantUpgradeCoins = getUpgradeCoins("pant", CurrentUser.levels.pant);
+    pantSilver.innerHTML = pantUpgradeCoins.silver ? pantUpgradeCoins.silver : "--";
+    pantGold.innerHTML = pantUpgradeCoins.gold ? pantUpgradeCoins.gold : "--";
+    pantPlatinum.innerHTML = pantUpgradeCoins.platinum ? pantUpgradeCoins.platinum : "--";
+
+    const shoesUpgradeCoins = getUpgradeCoins("shoes", CurrentUser.levels.shoes);
+    shoesSilver.innerHTML = shoesUpgradeCoins.silver ? shoesUpgradeCoins.silver : "--";
+    shoesGold.innerHTML = shoesUpgradeCoins.gold ? shoesUpgradeCoins.gold : "--";
+    shoesPlatinum.innerHTML = shoesUpgradeCoins.platinum ? shoesUpgradeCoins.platinum : "--";
+}
+
+const checkForRewards = () => {}
 
 // const getNextReward = () => {
 

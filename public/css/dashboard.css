@@ -45,7 +45,9 @@
     align-items: center;
     justify-content: flex-end;
 }
-.coin {
+.coin,
+.logout,
+.home {
     margin-right: 2rem;
     display: flex;
     flex-direction: row;
@@ -62,6 +64,17 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+.logout,
+.home {
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.logout:hover,
+.home:hover {
+    background-color: lightpink;
+    border-radius: 1rem;
 }
 
 .main {
@@ -138,8 +151,71 @@
     width: 90%;
     height: 50%;
     margin: 1rem 0 1rem 0;
+    padding: 1rem;
     background-color: lightpink;
     border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.right-bottom-left,
+.right-bottom-right {
+    flex: 1;
+    /* width: 40% !important; */
+    height: 90% !important;
+    background-color: cornsilk !important;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/* .right-bottom-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
+.right-bottom-left-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+.right-bottom-right-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.7rem;
+    margin-bottom: 1rem;
+}
+.right-bottom-left-component {
+    width: 100%;
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.component-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+}
+.coin-tray,
+.coin-tray-coin,
+.coin-tray-coin-value,
+.coin-tray-coin-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.coin-tray-coin {
+    margin: 0.5rem;
+}
+.coin-tray-coin-icon {
+    margin-left: 0.2rem;
 }
 
 .progress {

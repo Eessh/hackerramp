@@ -63,11 +63,6 @@ form.addEventListener("submit", async (event) => {
     const bill = form["bill"].value;
     console.log("bill", bill);
 
-    // const coins = {
-    //     silver: 0,
-    //     gold: 0,
-    //     platinum: 0
-    // }
     let fetchedCoins;
     let coins;
 
@@ -80,18 +75,6 @@ form.addEventListener("submit", async (event) => {
 
         coins = getCoins(fetchedCoins, bill);
 
-        // fetchedCoins = {
-        //     silver: 100,
-        //     gold: 70,
-        //     platinum: 30
-        // }
-
-        // coins.silver += fetchedCoins.silver != NaN ? fetchedCoins.silver : 0;
-        // coins.gold += fetchedCoins.gold != NaN ? fetchedCoins.gold : 0;
-        // coins.platinum += fetchedCoins.platinum != NaN ? fetchedCoins.platinum : 0;
-        // console.log("coins: ", coins);
-        // console.log("fetchedCoins: ", fetchedCoins);
-
     }
     else {
         // doc.data() will be undefined in this case
@@ -99,35 +82,19 @@ form.addEventListener("submit", async (event) => {
         coins = getCoins({silver: 0, gold: 0, platinum: 0}, bill);
     }
 
-
-    // if (100 <= bill && bill < 500) {
-    //     fetchedCoins.silver += bill/10;
-    // } 
-    // else if (bill = 2000) {
-    //     fetchedCoins.silver += ((5/8)*(bill/10))
-    //     fetchedCoins.gold += (3/8)*(bill/30)
-    // }  
-    // else if (bill < 5999) {
-    //     fetchedCoins.silver += (4/9)*(bill/10)
-    //     fetchedCoins.gold += (3/9)*(bill/30)
-    //     fetchedCoins.platinum += (2/9)*(bill/60)
-    // }  
-    // else {
-    //     fetchedCoins.gold += (5/8)*(bill/30)
-    //     fetchedCoins.platinum += (3/8)*(bill/60)
-    // }
-
-    // fetchedCoins.silver = Math.floor(fetchedCoins.silver);
-    // fetchedCoins.gold = Math.floor(fetchedCoins.gold);
-    // fetchedCoins.platinum = Math.floor(fetchedCoins.platinum);
-
     document.getElementById("silver-coins").innerHTML = coins.silver;
     document.getElementById("gold-coins").innerHTML = coins.gold;
     document.getElementById("platinum-coins").innerHTML = coins.platinum;
 
     await updateDoc(doc(db, "users", currentUser.email), {
         coins: coins,
-    });
+    })
+
+    console.log("done");
+    window.location.replace("../dashboard.html")
+
+    // window.location.replace("../dashboard.html");
+    // window.location.replace("../home.html");
 })
 
 
@@ -137,19 +104,19 @@ const getCoins = (fetchedCoins, bill) => {
     let silver = fetchedCoins.silver;
     let gold = fetchedCoins.gold;
     let platinum = fetchedCoins.platinum;
-    if (z <= 499) {
+    if (bill <= 499) {
         silver += z;
     }
-    else if (500 <= z && z <= 1999) {
+    else if (500 <= bill && bill <= 1999) {
         silver += (5*z)/14;
         gold += (3*z)/14;
     }
-    else if (2000 <= z && z <= 5999) {
+    else if (2000 <= bill && bill <= 5999) {
         silver += (4*z)/25;
         gold += (3*z)/25;
         platinum += (2*z)/25;
     }
-    else if (6000 <= z && z <= 14999) {
+    else if (6000 <= bill && bill <= 14999) {
         gold += (5*z)/33;
         platinum += (3*z)/33;
     }
@@ -165,21 +132,21 @@ const getCoins = (fetchedCoins, bill) => {
 
 
 const getSilverCoins = (bill) => {
-    let silver = 0
+    let z = 0
     if (100 <= bill && bill < 500) {
-        silver = bill/10
+        z = bill/10
     }
     else if (500 <= bill && bill < 2000) {
-        silver = bill/10 + (bill-500)/20;
+        z = bill/10 + (bill-500)/20;
     }
     else if (2000 <= bill && bill < 6000) {
-        silver = bill/10 + (bill-500)/35 + (bill-2000)/30;
+        z = bill/10 + (bill-500)/35 + (bill-2000)/30;
     }
     else if (6000 <= bill && bill < 15000) {
-        silver = bill/10 + (bill-500)/35 + (bill-2000)/30 + (bill-6000)/25;
+        z = bill/10 + (bill-500)/35 + (bill-2000)/30 + (bill-6000)/25;
     }
     else {
-        silver = bill/10 + (bill-500)/35 + (bill-2000)/30 + (bill-6000)/25 + (bill-15000)/20;
+        z = bill/10 + (bill-500)/35 + (bill-2000)/30 + (bill-6000)/25 + (bill-15000)/20;
     }
     return Math.floor(silver);
 }

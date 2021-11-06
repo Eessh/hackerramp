@@ -43,6 +43,11 @@ const defaults = {
     }
 }
 
+document.getElementById("login-btn").addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.replace("../login.html");
+})
+
 
 const form = document.getElementById("form")
 form.addEventListener("submit", async (event) => {
