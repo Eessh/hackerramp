@@ -335,7 +335,7 @@ popupClose[1].addEventListener("click", hidePopup);
 popupClose[2].addEventListener("click", hidePopup);
 confirmButton.addEventListener("click", async (e) => {
     e.preventDefault();
-    const form = CurrentUser.lastSelectedTransaction.from;
+    const from = CurrentUser.lastSelectedTransaction.from;
     const to = CurrentUser.lastSelectedTransaction.to;
     console.log("converting: gold -> silver ...");
     CurrentUser.coins = convertCoins(CurrentUser.coins, from, to);
