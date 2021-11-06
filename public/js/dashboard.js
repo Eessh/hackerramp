@@ -49,6 +49,7 @@ let CurrentUser = {
     },
     currentPopup: "popup",
     lastSelectedUpgrade: "",
+    lastRewardLevel: 0
 }
 let Info = {
     colors: {
@@ -81,22 +82,23 @@ let Info = {
     rewards: {
         level_1: {
             title: "Yay! You have cleared Level 1",
-            desc: "",
+            desc: "Won Cashback of 100 Rupees",
             coupon: 1
         },
         level_2: {
             title: "Yay! You have cleared Level 2",
-            desc: "",
+            desc: "Won Cashback of 200 Rupees",
             coupon: 2
         },
-        level3: {
+        level_3: {
             title: "Yay! You have cleared Level 3",
-            desc: "",
+            desc: "Won Cashback of 300 Rupees",
             coupon: 3
         },
         level_4: {
             title: "Congrats! You have completed the game",
-            desc: "",
+            desc: `Won Cashback of 500 Rupees
+Game will be Reset.`,
             coupon: 4
         }
     },
@@ -164,10 +166,6 @@ let Info = {
         }
     }
 }
-const l1 = [1, 1, 1];
-const l2 = [2, 2, 2];
-const l3 = [3, 3, 3];
-const l4 = [4, 4, 3];
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -183,6 +181,7 @@ onAuthStateChanged(auth, async (user) => {
         CurrentUser.coins = detailsSnapshot.data().coins;
         CurrentUser.colors = detailsSnapshot.data().colors;
         CurrentUser.levels = detailsSnapshot.data().levels;
+        CurrentUser.lastRewardLevel = detailsSnapshot.data().lastRewardLevel;
 
         setCoins();
         setAvatharColors();
@@ -306,7 +305,7 @@ const showPopup = (e) => {
     CurrentUser.currentPopup = "popup"
     console.log("clicked: ConvertCoins");
 };
-const hidePopup = (e) => {
+const hidePopup = async (e) => {
     e.preventDefault();
     if (CurrentUser.currentPopup === "popup") {
         popup.classList.replace("popup-show", "popup-hide")
@@ -314,8 +313,14 @@ const hidePopup = (e) => {
     else if (CurrentUser.currentPopup === "confirm") {
         confirmPopup.classList.replace("popup-show", "popup-hide");
     }
-    else {
+    else if (CurrentUser.currentPopup === "upgrade") {
         upgradePopup.classList.replace("popup-show", "popup-hide");
+    }
+    else {
+        rewardPopup.classList.replace("popup-show", "popup-hide");
+        if (CurrentUser.lastRewardLevel === 4) {
+            await resetGame();
+        }
     }
     popupBackground.classList.replace("popup-show", "popup-hide");
     console.log("clicked: popup-close");
@@ -326,6 +331,7 @@ const popup = document.querySelector(".popup");
 const confirmPopup = document.querySelector(".confirm-popup");
 const confirmButton = document.querySelector(".confirm-button");
 const upgradePopup = document.querySelector(".upgrade-popup");
+const rewardPopup = document.querySelector(".reward-popup")
 const popupClose = document.querySelectorAll(".popup-close");
 console.log("popupCloseArray: ", popupClose);
 convertCoinsButton.addEventListener("click", showPopup);
@@ -333,6 +339,7 @@ convertCoinsButton.addEventListener("click", showPopup);
 popupClose[0].addEventListener("click", hidePopup);
 popupClose[1].addEventListener("click", hidePopup);
 popupClose[2].addEventListener("click", hidePopup);
+popupClose[3].addEventListener("click", hidePopup);
 confirmButton.addEventListener("click", async (e) => {
     e.preventDefault();
     const from = CurrentUser.lastSelectedTransaction.from;
@@ -345,7 +352,7 @@ confirmButton.addEventListener("click", async (e) => {
     setCoins(CurrentUser.coins);
     console.log("done");
     confirmPopup.classList.replace("popup-show", "popup-hide");
-    hidePopup(e);
+    await hidePopup(e);
 })
 // popup.addEventListener("click", (e) => {
 //     e.preventDefault();
@@ -593,6 +600,7 @@ upgradeWithSilverBtn.addEventListener("click", async (e) => {
         console.log("upgradeCoins: ", upgradeCoins);
     }
     hideUpgradePopup();
+    checkForRewards();
 });
 upgradeWithGoldBtn.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -608,6 +616,7 @@ upgradeWithGoldBtn.addEventListener("click", async (e) => {
         console.log("required gold coins: ", upgradeCoins.gold);
     }
     hideUpgradePopup();
+    checkForRewards();
 });
 upgradeWithPlatinumBtn.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -618,6 +627,7 @@ upgradeWithPlatinumBtn.addEventListener("click", async (e) => {
     }
     else console.log("no enough coins :(");
     hideUpgradePopup();
+    checkForRewards();
 });
 
 const getComponentLevel = (component) => {
@@ -653,7 +663,87 @@ const updateCoinsForNextLevel = () => {
     shoesPlatinum.innerHTML = shoesUpgradeCoins.platinum ? shoesUpgradeCoins.platinum : "--";
 }
 
-const checkForRewards = () => {}
+const checkForRewards = async () => {
+    console.log("from ckeck, lastRewardLevel: ", CurrentUser.lastRewardLevel);
+    const matrix = [
+        [1, 1, 1],
+        [2, 2, 2],
+        [3, 3, 3],
+        [4, 4, 3],
+    ];
+    let maxLeastLevel = 0;
+    for (let i = 3; i >= 0; i--) {
+        console.log("matrix[i]: ", matrix[i]);
+        if (isGreaterThan(matrix[i])) {
+            maxLeastLevel = i+1;
+            break;
+        }
+    }
+    if (maxLeastLevel > CurrentUser.lastRewardLevel) {
+        CurrentUser.lastRewardLevel = maxLeastLevel;
+        const userDocRef = doc(db, "users", CurrentUser.email);
+        await updateDoc(userDocRef, {
+            lastRewardLevel: CurrentUser.lastRewardLevel
+        });
+        showRewardPopup(CurrentUser.lastRewardLevel);
+    }
+}
+const isGreaterThan = (levelArr) => {
+    console.log("levelArr: ", levelArr);
+    if (
+        levelArr[0] <= CurrentUser.levels.shirt
+        && levelArr[1] <= CurrentUser.levels.pant
+        && levelArr[2] <= CurrentUser.levels.shoes
+    ) {
+        return true;
+    }
+    return false;
+}
+
+const showRewardPopup = (rewardLevel) => {
+    CurrentUser.currentPopup = "reward";
+    popupBackground.classList.replace("popup-hide", "popup-show");
+    rewardPopup.classList.replace("popup-hide", "popup-show");
+    document.querySelector(".reward-popup-title").innerHTML = rewardLevel === 1
+                                                        ? Info.rewards.level_1.title
+                                                        : rewardLevel === 2
+                                                            ? Info.rewards.level_2.title
+                                                            : rewardLevel === 3
+                                                                ? Info.rewards.level_3.title
+                                                                : Info.rewards.level_4.title
+    document.querySelector(".reward-desc").innerHTML = rewardLevel === 1
+                                                        ? Info.rewards.level_1.desc
+                                                        : rewardLevel === 2
+                                                            ? Info.rewards.level_2.desc
+                                                            : rewardLevel === 3
+                                                                ? Info.rewards.level_3.desc
+                                                                : Info.rewards.level_4.desc
+}
+
+const resetGame = async () => {
+    CurrentUser.colors = {
+        shirt: "gray",
+        pant: "black",
+        shoes: "black"
+    }
+    CurrentUser.levels = {
+        shirt: 0,
+        pant: 0,
+        shoes: 0,
+    }
+    CurrentUser.lastRewardLevel = 0
+    const userDocRef = doc(db, "users", CurrentUser.email);
+    await updateDoc(userDocRef, {
+        colors: CurrentUser.colors,
+        levels: CurrentUser.levels,
+        lastRewardLevel: CurrentUser.lastRewardLevel
+    });
+    setCoins();
+    setAvatharColors();
+    setLevels();
+    setProgressBars();
+    updateCoinsForNextLevel();
+}
 
 // const getNextReward = () => {
 

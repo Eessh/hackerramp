@@ -40,7 +40,8 @@ const defaults = {
         shirt: 0,
         pant: 0,
         shoes: 0
-    }
+    },
+    lastRewardLevel: 0
 }
 
 document.getElementById("login-btn").addEventListener("click", (e) => {
