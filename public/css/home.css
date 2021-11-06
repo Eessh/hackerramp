@@ -13,7 +13,9 @@
     align-items: flex-start;
     justify-content: center;
     padding: 0;
-    background-color: cornsilk;
+    /* background-color: cornsilk; */
+    /* background-color: orange; */
+    background-color: #60A3D9;
 }
 
 .navbar {
@@ -47,7 +49,8 @@
     transition: all 0.4s ease-in;
 }
 .dashboardlink:hover {
-    background-color: lightpink;
+    /* background-color: lightpink; */
+    background-color: #BFD7ED;
     border-radius: 0.5rem;
 }
 .logout {
@@ -57,7 +60,8 @@
     transition: all 0.3s ease-in-out !important;
 }
 .logout:hover {
-    background-color: lightpink !important;
+    /* background-color: lightpink !important; */
+    background-color: #BFD7ED !important;
     border-radius: 1rem !important;
 }
 
@@ -109,7 +113,8 @@
 #bill-input {
     padding: 0.7rem;
     margin-bottom: 1rem;
-    outline: 1px solid lightcoral;
+    /* outline: 1px solid lightcoral; */
+    outline: 1px solid #BFD7ED;
     border: none;
     border-radius: 0.5rem;
     transition: all 0.1s ease-in-out;
@@ -118,12 +123,15 @@
     font-size: 1.05rem;
 }
 #bill-input:focus {
-    outline: 2px solid lightcoral;
-    box-shadow: 0 0 20px 2px lightcoral;
+    /* outline: 2px solid lightcoral; */
+    outline: 2px solid #BFD7ED;
+    /* box-shadow: 0 0 20px 2px lightcoral; */
+    box-shadow: 0 0 20px 2px #BFD7ED;
 }
 #checkout-button {
     padding: 0.7rem 0.7rem 0.7rem 0.8rem;
-    outline: 1px solid lightcoral;
+    /* outline: 1px solid lightcoral; */
+    outline: 1px solid #BFD7ED;
     border: none;
     border-radius: 0.5rem;
     transition: all 0.1s ease-in-out;
@@ -134,9 +142,12 @@
 }
 #checkout-button:hover {
     color: black;
-    background-color: lightpink;
-    outline: 2px solid lightcoral;
-    box-shadow: 0 0 20px 2px lightcoral;
+    /* background-color: lightpink; */
+    background-color: #BFD7ED;
+    /* outline: 2px solid lightcoral; */
+    outline: 2px solid #BFD7ED;
+    /* box-shadow: 0 0 20px 2px lightcoral; */
+    box-shadow: 0 0 20px 2px #BFD7ED;
 }
 
 .coin {
@@ -178,7 +189,8 @@ footer {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: lightpink;
+    /* background-color: lightpink; */
+    background-color: #BFD7ED;
     font-family: 'Poppins', sans-serif;
     font-size: 1.3rem;
 }
