@@ -345,7 +345,7 @@ confirmButton.addEventListener("click", async (e) => {
     setCoins(CurrentUser.coins);
     console.log("done");
     confirmPopup.classList.replace("popup-show", "popup-hide");
-    hidePopup();
+    hidePopup(e);
 })
 // popup.addEventListener("click", (e) => {
 //     e.preventDefault();
