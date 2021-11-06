@@ -3,7 +3,7 @@ import {
     getAuth,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js"
+import { getFirestore, doc, collection, getDoc, getDocs, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js"
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -46,8 +46,111 @@ let CurrentUser = {
         from: "",
         to: ""
     },
-    currentPopup: "popup"
+    currentPopup: "popup",
+    lastSelectedUpgrade: "",
 }
+let Info = {
+    colors: {
+        shirt: {
+            level_0: "",
+            level_1: "",
+            level_2: "",
+            level_3: "",
+            level_4: "",
+        },
+        pant: {
+            level_0: "",
+            level_1: "",
+            level_2: "",
+            level_3: "",
+            level_4: "",
+        },
+        shoes: {
+            level_0: "",
+            level_1: "",
+            level_2: "",
+            level_3: "",
+        }
+    },
+    maxlevels: {
+        shirt: 4,
+        pant: 4,
+        shoes: 3
+    },
+    rewards: {
+        level_1: {},
+        level_2: {},
+        level3: {},
+        level_4: {}
+    },
+    upgrades: {
+        shirt: {
+            level_0_to_1: {
+                silver: 30,
+                gold: 10,
+                platinum: 5
+            },
+            level_1_to_2: {
+                silver: 60,
+                gold: 20,
+                platinum: 10
+            },
+            level_2_to_3: {
+                silver: 100,
+                gold: 34,
+                platinum: 17
+            },
+            level_3_to_4: {
+                silver: 150,
+                gold: 50,
+                platinum: 25
+            },
+        },
+        pant: {
+            level_0_to_1: {
+                silver: 30,
+                gold: 10,
+                platinum: 5
+            },
+            level_1_to_2: {
+                silver: 60,
+                gold: 20,
+                platinum: 10
+            },
+            level_2_to_3: {
+                silver: 100,
+                gold: 34,
+                platinum: 17
+            },
+            level_3_to_4: {
+                silver: 150,
+                gold: 50,
+                platinum: 25
+            },
+        },
+        shoes: {
+            level_0_to_1: {
+                silver: 30,
+                gold: 10,
+                platinum: 5
+            },
+            level_1_to_2: {
+                silver: 60,
+                gold: 20,
+                platinum: 10
+            },
+            level_2_to_3: {
+                silver: 100,
+                gold: 34,
+                platinum: 17
+            },
+        }
+    }
+}
+const l1 = [1, 1, 1];
+const l2 = [2, 2, 2];
+const l3 = [3, 3, 3];
+const l4 = [4, 4, 3];
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -88,11 +191,17 @@ onAuthStateChanged(auth, async (user) => {
         console.log("No such document!");
       }
 
-    //   const fetchedCoins = await fetchCoins();
-    //   setCoins(fetchedCoins);
-    //   CurrentUser.coins = fetchedCoins;
+        // const infoCollectionRef = collection(db, "info");
+        // const infoSnapshot = await getDocs(infoCollectionRef);
+        // Info = infoSnapshot.data();
+        // infoSnapshot.forEach((doc) => {
+        //     console.log(doc.id, " => ", doc.data());
+        // })
+        
+        // console.log("Info Data: ", infoSnapshot.data());
 
-      console.log("CurrentUser: ", CurrentUser);
+        console.log("CurrentUser: ", CurrentUser);
+        console.log("Info: ", Info);
 
       // ...
     } else {
@@ -161,15 +270,14 @@ const showPopup = (e) => {
 };
 const hidePopup = (e) => {
     e.preventDefault();
-    // if (e.traget !== document.querySelector(".popup")) {
-    //     popupBackground.classList.replace("popup-show", "popup-hide");
-    //     console.log("clicked: PopupBackground");
-    // }
     if (CurrentUser.currentPopup === "popup") {
         popup.classList.replace("popup-show", "popup-hide")
     }
-    else {
+    else if (CurrentUser.currentPopup === "confirm") {
         confirmPopup.classList.replace("popup-show", "popup-hide");
+    }
+    else {
+        upgradePopup.classList.replace("popup-show", "popup-hide");
     }
     popupBackground.classList.replace("popup-show", "popup-hide");
     console.log("clicked: popup-close");
@@ -179,12 +287,14 @@ const popupBackground = document.querySelector(".popup-background");
 const popup = document.querySelector(".popup");
 const confirmPopup = document.querySelector(".confirm-popup");
 const confirmButton = document.querySelector(".confirm-button");
+const upgradePopup = document.querySelector(".upgrade-popup");
 const popupClose = document.querySelectorAll(".popup-close");
 console.log("popupCloseArray: ", popupClose);
 convertCoinsButton.addEventListener("click", showPopup);
 // popupBackground.addEventListener("click", hidePopup);
 popupClose[0].addEventListener("click", hidePopup);
 popupClose[1].addEventListener("click", hidePopup);
+popupClose[2].addEventListener("click", hidePopup);
 confirmButton.addEventListener("click", async (e) => {
     e.preventDefault();
     const form = CurrentUser.lastSelectedTransaction.from;
@@ -298,27 +408,195 @@ const setProgressBars = () => {
     const shirtProgressBar = document.getElementById("shirt-progress-bar");
     const pantProgressBar = document.getElementById("pant-progress-bar");
     const shoesProgressBar = document.getElementById("shoes-progress-bar");
-    shirtProgressBar.classList.replace(shirtProgressBar.classList.value, getProgressBarClassName("shirt", CurrentUser.levels.shirt));
-    pantProgressBar.classList.replace(pantProgressBar.classList.value, getProgressBarClassName("pant", CurrentUser.levels.pant));
-    shoesProgressBar.classList.replace(shoesProgressBar.classList.value, getProgressBarClassName("shoes", CurrentUser.levels.shoes));
+    shirtProgressBar.style.width = getProgressBarWidth("shirt", CurrentUser.levels.shirt);
+    pantProgressBar.style.width = getProgressBarWidth("pant", CurrentUser.levels.pant);
+    shoesProgressBar.style.width = getProgressBarWidth("shoes", CurrentUser.levels.shoes);
 }
 
-const getProgressBarClassName = (component, level) => {
+const getProgressBarWidth = (component, level) => {
     if (level === 0) {
-        if (component === "shoes") return "shoes_level_0";
-        else return "level_0"
+        if (component === "shoes") return "25%";
+        else return "20%";
     }
     if (level === 1) {
-        if (component === "shoes") return "shoes_level_1"
-        else return "level_1"
+        if (component === "shoes") return "50%";
+        else return "40%";
     }
     if (level === 2) {
-        if (component === "shoes") return "shoes_level_2"
-        else return "level_2"
+        if (component === "shoes") return "75%";
+        else return "60%";
     }
     if (level === 3) {
-        if (component === "shoes") return "level_4"
-        else return "level_3"
+        if (component === "shoes") return "100%";
+        else return "80%";
     }
-    else return "level_4"
+    else return "100%";
 }
+
+const shirtUpgradeIcon = document.getElementById("shirt-upgrade-icon");
+const pantUpgradeIcon = document.getElementById("pant-upgrade-icon");
+const shoesUpgradeIcon = document.getElementById("shoes-upgrade-icon");
+shirtUpgradeIcon.addEventListener("click", (e) => {
+    e.preventDefault();
+    CurrentUser.currentPopup = "upgrade";
+    showUpgradePopup("shirt");
+    CurrentUser.lastSelectedUpgrade = "shirt";
+});
+pantUpgradeIcon.addEventListener("click", (e) => {
+    e.preventDefault();
+    CurrentUser.currentPopup = "upgrade";
+    showUpgradePopup("pant");
+    CurrentUser.lastSelectedUpgrade = "pant";
+});
+shoesUpgradeIcon.addEventListener("click", (e) => {
+    e.preventDefault();
+    CurrentUser.currentPopup = "upgrade";
+    showUpgradePopup("shoes");
+    CurrentUser.lastSelectedUpgrade = "shoes";
+});
+
+const showUpgradePopup = (component) => {
+    popupBackground.classList.replace("popup-hide", "popup-show");
+    upgradePopup.classList.replace("popup-hide", "popup-show");
+    document.querySelector(".upgrade-popup-title").innerHTML = `Upgrade ${component.charAt(0).toUpperCase() + component.slice(1)}`;
+    let upgradeCoins;
+    if (component === "shirt") {
+        upgradeCoins = getUpgradeCoins(component, CurrentUser.levels.shirt);
+    }
+    else if (component === "pant") {
+        upgradeCoins = getUpgradeCoins(component, CurrentUser.levels.pant);
+    }
+    else {
+        upgradeCoins = getUpgradeCoins(component, CurrentUser.levels.shoes);
+    }
+    if (upgradeCoins === "Reached Last Level") {
+        document.getElementById("upgrade-silver-coins").innerHTML = upgradeCoins;
+        document.getElementById("upgrade-gold-coins").innerHTML = upgradeCoins;
+        document.getElementById("upgrade-platinum-coins").innerHTML = upgradeCoins;
+    }
+    else {
+        document.getElementById("upgrade-silver-coins").innerHTML = upgradeCoins.silver;
+        document.getElementById("upgrade-gold-coins").innerHTML = upgradeCoins.gold;
+        document.getElementById("upgrade-platinum-coins").innerHTML = upgradeCoins.platinum;
+    }
+}
+
+const upgradeComponent = async (component, coinType) => {
+    console.log("recieved: component=", component, ", coinType=", coinType);
+    let upgradeCoins;
+    switch (component) {
+        case "shirt":
+            upgradeCoins = getUpgradeCoins(component, CurrentUser.levels.shirt);
+            CurrentUser.levels.shirt += 1;
+            // TODO: Shirt Color Upgrade
+            break;
+        case "pant":
+            upgradeCoins = getUpgradeCoins(component, CurrentUser.levels.pant);
+            CurrentUser.levels.pant += 1;
+            // TODO: Pant Color Upgrade
+            break;
+        case "shoes":
+            upgradeCoins = getUpgradeCoins(component, CurrentUser.levels.shoes);
+            CurrentUser.levels.shoes += 1;
+            // TODO: Shoes Color Upgrade
+            break;
+        default:
+            break;
+    }
+    console.log("coins needed to upgrade: ", upgradeCoins);
+    if (coinType === "silver") CurrentUser.coins.silver -= upgradeCoins.silver;
+    else if (coinType === "gold") CurrentUser.coins.gold -= upgradeCoins.gold;
+    else CurrentUser.coins.platinum -= upgradeCoins.platinum;
+    const userDocRef = doc(db, "users", CurrentUser.email);
+    await updateDoc(userDocRef, {
+        coins: CurrentUser.coins,
+        levels: CurrentUser.levels
+    });
+    setCoins();
+    setAvatharColors();
+    setLevels();
+    setProgressBars();
+}
+
+const getUpgradeCoins = (component, currentLevel) => {
+    console.log("getUpgradeCoins, recieved: ", component, ", ", currentLevel);
+    if (component === "shirt" || component === "pant") {
+        if (currentLevel === 0) return Info.upgrades.shirt.level_0_to_1;
+        if (currentLevel === 1) return Info.upgrades.shirt.level_1_to_2;
+        if (currentLevel === 2) return Info.upgrades.shirt.level_2_to_3;
+        if (currentLevel === 3) return Info.upgrades.shirt.level_3_to_4;
+        return "Reached Last Level";
+    }
+    if (currentLevel === 0) return Info.upgrades.shirt.level_0_to_1;
+    if (currentLevel === 1) return Info.upgrades.shirt.level_1_to_2;
+    if (currentLevel === 2) return Info.upgrades.shirt.level_2_to_3;
+    return "Reached Last Level";
+}
+
+const upgradeWithSilverBtn = document.getElementById("upgrade-with-silver");
+const upgradeWithGoldBtn = document.getElementById("upgrade-with-gold");
+const upgradeWithPlatinumBtn = document.getElementById("upgrade-with-platinum");
+upgradeWithSilverBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    console.log("lastSelectedUpgrade: ", CurrentUser.lastSelectedUpgrade, ", currentLevel: ", getComponentLevel(CurrentUser.lastSelectedUpgrade));
+    console.log("componentLevel: ", getComponentLevel(CurrentUser.lastSelectedUpgrade));
+    const upgradeCoins = getUpgradeCoins(CurrentUser.lastSelectedUpgrade, getComponentLevel(CurrentUser.lastSelectedUpgrade));
+    if (upgradeCoins !== "Reached Last Level" && CurrentUser.coins.silver >= upgradeCoins.silver) {
+        await upgradeComponent(CurrentUser.lastSelectedUpgrade, "silver");
+    }
+    else {
+        console.log("no enough coins :(");
+        console.log("coins: ", CurrentUser.coins);
+        console.log("upgradeCoins: ", upgradeCoins);
+    }
+});
+upgradeWithGoldBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    console.log("lastSelectedUpgrade: ", CurrentUser.lastSelectedUpgrade, ", currentLevel: ", getComponentLevel(CurrentUser.lastSelectedUpgrade));
+    console.log("lastSelectedUpgrade: ", CurrentUser.lastSelectedUpgrade);
+    const upgradeCoins = getUpgradeCoins(CurrentUser.lastSelectedUpgrade, getComponentLevel(CurrentUser.lastSelectedUpgrade));
+    if (upgradeCoins !== "Reached Last Level" && CurrentUser.coins.gold >= upgradeCoins.gold) {
+        await upgradeComponent(CurrentUser.lastSelectedUpgrade, "gold");
+    }
+    else {
+        console.log("no enough coins :(");
+        console.log("coins: ", CurrentUser.coins);
+        console.log("required gold coins: ", upgradeCoins.gold);
+    }
+});
+upgradeWithPlatinumBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    console.log("lastSelectedUpgrade: ", CurrentUser.lastSelectedUpgrade, ", currentLevel: ", getComponentLevel(CurrentUser.lastSelectedUpgrade));
+    const upgradeCoins = getUpgradeCoins(CurrentUser.lastSelectedUpgrade, getComponentLevel(CurrentUser.lastSelectedUpgrade));
+    if (upgradeCoins !== "Reached Last Level" && CurrentUser.coins.platinum >= upgradeCoins.platinum) {
+        await upgradeComponent(CurrentUser.lastSelectedUpgrade, "platinum");
+    }
+    else console.log("no enough coins :(");
+});
+
+const getComponentLevel = (component) => {
+    if (component === "shirt") return CurrentUser.levels.shirt;
+    else if (component === "pant") return CurrentUser.levels.pant;
+    else return CurrentUser.levels.shoes;
+}
+
+// const getNextReward = () => {
+
+//     shirt: 3
+//     pant: 3
+//     shoes: 1
+
+//     min+1
+
+//          shi pnat shoe   
+//     a1: [1,  1,   1]
+//     a2: [2,  2,   2]
+//     a3: [3,  3,   3]
+//     a4: [4,  4,   3]
+
+
+
+
+//     min(CurrentUser.levels);
+//     nextMin(CurrentUser.levels);
+// }
