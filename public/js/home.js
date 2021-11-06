@@ -96,9 +96,9 @@ form.addEventListener("submit", async (event) => {
         coins = getCoins({silver: 0, gold: 0, platinum: 0}, bill);
     }
 
-    document.getElementById("silver-coins").innerHTML = coins.silver;
-    document.getElementById("gold-coins").innerHTML = coins.gold;
-    document.getElementById("platinum-coins").innerHTML = coins.platinum;
+    // document.getElementById("silver-coins").innerHTML = coins.silver;
+    // document.getElementById("gold-coins").innerHTML = coins.gold;
+    // document.getElementById("platinum-coins").innerHTML = coins.platinum;
 
     await updateDoc(doc(db, "users", currentUser.email), {
         coins: coins,
