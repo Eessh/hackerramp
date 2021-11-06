@@ -3,7 +3,8 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    onAuthStateChanged
+    onAuthStateChanged,
+    signOut
 } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js";
 
@@ -55,6 +56,19 @@ onAuthStateChanged(auth, async (user) => {
       console.log("unable to retireve user");
     }
 })();
+
+document.querySelector(".logout").addEventListener("click", (e) => {
+    e.preventDefault();
+    console.log("loggin out ...")
+    signOut(auth).then(() => {
+        window.location.replace("../login.html");
+        console.log("done");
+        // Sign-out successful.
+    }).catch((error) => {
+        // An error happened.
+        console.log("Error occured when sigining out");
+    });
+});
 
 const form = document.getElementById("form");
 form.addEventListener("submit", async (event) => {
