@@ -148,5 +148,5 @@ const getSilverCoins = (bill) => {
     else {
         z = bill/10 + (bill-500)/35 + (bill-2000)/30 + (bill-6000)/25 + (bill-15000)/20;
     }
-    return Math.floor(silver);
+    return Math.floor(z);
 }
