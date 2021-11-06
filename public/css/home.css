@@ -15,7 +15,7 @@
     padding: 0;
     /* background-color: cornsilk; */
     /* background-color: orange; */
-    background-color: #60A3D9;
+    background-color: #ECE3F0;
 }
 
 .navbar {
@@ -50,7 +50,7 @@
 }
 .dashboardlink:hover {
     /* background-color: lightpink; */
-    background-color: #BFD7ED;
+    background-color: #D3BBDD;
     border-radius: 0.5rem;
 }
 .logout {
@@ -61,7 +61,7 @@
 }
 .logout:hover {
     /* background-color: lightpink !important; */
-    background-color: #BFD7ED !important;
+    background-color: #D3BBDD !important;
     border-radius: 1rem !important;
 }
 
@@ -95,6 +95,30 @@
     justify-content: center;
 }
 
+.rightpane-logo {
+    width: 80%;
+    animation: float2 8s ease-in-out infinite;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+@keyframes float2 {
+	0% {
+		transform: translatey(0);
+	}
+    25% {
+		transform: translatey(5px) rotate(3deg);
+    }
+	50% {
+		transform: translatey(-7px);
+	}
+    75% {
+		transform: translatey(5px) rotate(-3deg);
+    }
+	100% {
+		transform: translatey(0);
+	}
+}
+
 .leftpane-title,
 .rightpane-title {
     font-family: 'Poppins', sans-serif;
@@ -114,7 +138,7 @@
     padding: 0.7rem;
     margin-bottom: 1rem;
     /* outline: 1px solid lightcoral; */
-    outline: 1px solid #BFD7ED;
+    outline: 1px solid #D3BBDD;
     border: none;
     border-radius: 0.5rem;
     transition: all 0.1s ease-in-out;
@@ -124,14 +148,14 @@
 }
 #bill-input:focus {
     /* outline: 2px solid lightcoral; */
-    outline: 2px solid #BFD7ED;
+    outline: 2px solid #D3BBDD;
     /* box-shadow: 0 0 20px 2px lightcoral; */
-    box-shadow: 0 0 20px 2px #BFD7ED;
+    box-shadow: 0 0 20px 2px #D3BBDD;
 }
 #checkout-button {
     padding: 0.7rem 0.7rem 0.7rem 0.8rem;
     /* outline: 1px solid lightcoral; */
-    outline: 1px solid #BFD7ED;
+    outline: 1px solid #D3BBDD;
     border: none;
     border-radius: 0.5rem;
     transition: all 0.1s ease-in-out;
@@ -143,11 +167,11 @@
 #checkout-button:hover {
     color: black;
     /* background-color: lightpink; */
-    background-color: #BFD7ED;
+    background-color: #D3BBDD;
     /* outline: 2px solid lightcoral; */
-    outline: 2px solid #BFD7ED;
+    outline: 2px solid #D3BBDD;
     /* box-shadow: 0 0 20px 2px lightcoral; */
-    box-shadow: 0 0 20px 2px #BFD7ED;
+    box-shadow: 0 0 20px 2px #D3BBDD;
 }
 
 .coin {
@@ -190,7 +214,7 @@ footer {
     align-items: center;
     justify-content: center;
     /* background-color: lightpink; */
-    background-color: #BFD7ED;
+    background-color: #D3BBDD;
     font-family: 'Poppins', sans-serif;
     font-size: 1.3rem;
 }

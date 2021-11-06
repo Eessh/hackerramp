@@ -13,7 +13,7 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    background-color: cornsilk;
+    background-color: #ECE3F0;
 }
 
 span {
@@ -37,7 +37,7 @@ label,p {
 #password {
     padding: 0.7rem;
     margin-bottom: 1rem;
-    outline: 1px solid lightcoral;
+    outline: 1px solid #D3BBDD;
     border: none;
     border-radius: 0.5rem;
     transition: all 0.1s ease-in-out;
@@ -47,8 +47,8 @@ label,p {
 }
 #name:focus,
 #password:focus {
-    outline: 2px solid lightcoral;
-    box-shadow: 0 0 20px 2px lightcoral;
+    outline: 2px solid #D3BBDD;
+    box-shadow: 0 0 20px 2px #D3BBDD;
 }
 
 p {
@@ -63,13 +63,13 @@ p {
     border-radius: 50%;
     width: 18px;
     height: 18px;
-    border: 2px solid lightcoral;
+    border: 2px solid #C26DBC;
     transition: 0.2s all linear;
     margin-right: 0.3rem;
 }
 #gender-male:checked,
 #gender-female:checked {
-    border: 6px solid lightcoral;
+    border: 6px solid #C26DBC;
 }
 span > label {
     cursor: pointer;
@@ -99,9 +99,9 @@ span > label {
 button {
     /* width: fit-content;
     height: fit-content; */
-    margin-top: 1.3rem;
+    margin-top: 1.8rem !important;
     padding: 0.7rem 0.7rem 0.7rem 0.7rem;
-    outline: 1px solid lightcoral;
+    outline: 1px solid #D3BBDD;
     border: none;
     border-radius: 0.5rem !important;
     transition: all 0.1s ease-in-out;
@@ -115,9 +115,9 @@ button {
 }
 button:hover {
     color: black;
-    background-color: lightpink;
-    outline: 2px solid lightcoral;
-    box-shadow: 0 0 20px 2px lightcoral;
+    background-color: #d5b2e4;
+    outline: 2px solid #D3BBDD;
+    box-shadow: 0 0 20px 2px #D3BBDD;
 }
 button:hover > .btn-icon {
     transform: translateX(0.5rem);

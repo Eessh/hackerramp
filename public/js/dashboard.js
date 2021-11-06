@@ -53,25 +53,49 @@ let CurrentUser = {
 }
 let Info = {
     colors: {
-        shirt: {
-            level_0: "",
-            level_1: "",
-            level_2: "",
-            level_3: "",
-            level_4: "",
+        male: {
+            shirt: {
+                level_0: "gray",
+                level_1: "#FFF4BD",
+                level_2: "#F4B9B8",
+                level_3: "#85D2D0",
+                level_4: "#887BB0",
+            },
+            pant: {
+                level_0: "black",
+                level_1: "#E4D4C8",
+                level_2: "#D0B49F",
+                level_3: "#A47551",
+                level_4: "#523A28",
+            },
+            shoes: {
+                level_0: "black",
+                level_1: "#FFF4BD",
+                level_2: "#F4B9B8",
+                level_3: "#85D2D0",
+            },
         },
-        pant: {
-            level_0: "",
-            level_1: "",
-            level_2: "",
-            level_3: "",
-            level_4: "",
-        },
-        shoes: {
-            level_0: "",
-            level_1: "",
-            level_2: "",
-            level_3: "",
+        female: {
+            shirt: {
+                level_0: "gray",
+                level_1: "#EDE7DC",
+                level_2: "#DCD2CC",
+                level_3: "#CCAFA5",
+                level_4: "#BDC3CB",
+            },
+            pant: {
+                level_0: "black",
+                level_1: "#E8B4B8",
+                level_2: "#EED6D3",
+                level_3: "#A49393",
+                level_4: "#67595E",
+            },
+            shoes: {
+                level_0: "black",
+                level_1: "#E8B4B8",
+                level_2: "#EED6D3",
+                level_3: "#67595E",
+            },
         }
     },
     maxlevels: {
@@ -82,23 +106,22 @@ let Info = {
     rewards: {
         level_1: {
             title: "Yay! You have cleared Level 1",
-            desc: "Won Cashback of 100 Rupees",
+            desc: "You have recieved a Level-1 Coupon",
             coupon: 1
         },
         level_2: {
             title: "Yay! You have cleared Level 2",
-            desc: "Won Cashback of 200 Rupees",
+            desc: "You have recieved a Level-2 Coupon",
             coupon: 2
         },
         level_3: {
             title: "Yay! You have cleared Level 3",
-            desc: "Won Cashback of 300 Rupees",
+            desc: "You have recieved a Level-3 Coupon",
             coupon: 3
         },
         level_4: {
             title: "Congrats! You have completed the game",
-            desc: `Won Cashback of 500 Rupees
-Game will be Reset.`,
+            desc: "Congratulations! You have recieved a MEGA COUPON, Game will be Reset.",
             coupon: 4
         }
     },
@@ -368,10 +391,10 @@ const setAvatharColors = () => {
         path.setAttribute("style", `fill: ${CurrentUser.colors.shirt}`);
     })
     shoePaths.forEach((path) => {
-        path.setAttribute("style", `fill: ${CurrentUser.colors.pant}`);
+        path.setAttribute("style", `fill: ${CurrentUser.colors.shoes}`);
     });
     pantPaths.forEach((path) => {
-        path.setAttribute("style", `fill: ${CurrentUser.colors.shoes}`);
+        path.setAttribute("style", `fill: ${CurrentUser.colors.pant}`);
     });
 }
 
@@ -538,27 +561,31 @@ const upgradeComponent = async (component, coinType) => {
             upgradeCoins = getUpgradeCoins(component, CurrentUser.levels.shirt);
             CurrentUser.levels.shirt += 1;
             // TODO: Shirt Color Upgrade
+            CurrentUser.colors.shirt = getComponentColor(component, CurrentUser.levels.shirt);
             break;
         case "pant":
             upgradeCoins = getUpgradeCoins(component, CurrentUser.levels.pant);
             CurrentUser.levels.pant += 1;
             // TODO: Pant Color Upgrade
+            CurrentUser.colors.pant = getComponentColor(component, CurrentUser.levels.pant);
             break;
         case "shoes":
             upgradeCoins = getUpgradeCoins(component, CurrentUser.levels.shoes);
             CurrentUser.levels.shoes += 1;
             // TODO: Shoes Color Upgrade
+            CurrentUser.colors.shoes = getComponentColor(component, CurrentUser.levels.shoes);
             break;
         default:
             break;
     }
-    console.log("coins needed to upgrade: ", upgradeCoins);
+    console.log("colors: ", CurrentUser.colors);
     if (coinType === "silver") CurrentUser.coins.silver -= upgradeCoins.silver;
     else if (coinType === "gold") CurrentUser.coins.gold -= upgradeCoins.gold;
     else CurrentUser.coins.platinum -= upgradeCoins.platinum;
     const userDocRef = doc(db, "users", CurrentUser.email);
     await updateDoc(userDocRef, {
         coins: CurrentUser.coins,
+        colors: CurrentUser.colors,
         levels: CurrentUser.levels
     });
     setCoins();
@@ -582,6 +609,49 @@ const getUpgradeCoins = (component, currentLevel) => {
     if (currentLevel === 2) return Info.upgrades.shirt.level_2_to_3;
     return "Reached Last Level";
 }
+
+const getComponentColor = (component, level) => {
+    if (component === "shirt") {
+        if (CurrentUser.gender === "male") {
+            if (level === 1) return Info.colors.male.shirt.level_1;
+            if (level === 2) return Info.colors.male.shirt.level_2;
+            if (level === 3) return Info.colors.male.shirt.level_3;
+            if (level === 4) return Info.colors.male.shirt.level_4;
+        }
+        else {
+            if (level === 1) return Info.colors.female.shirt.level_1;
+            if (level === 2) return Info.colors.female.shirt.level_2;
+            if (level === 3) return Info.colors.female.shirt.level_3;
+            if (level === 4) return Info.colors.female.shirt.level_4;
+        }
+    }
+    if (component === "pant") {
+        if (CurrentUser.gender === "male") {
+            if (level === 1) return Info.colors.male.pant.level_1;
+            if (level === 2) return Info.colors.male.pant.level_2;
+            if (level === 3) return Info.colors.male.pant.level_3;
+            if (level === 4) return Info.colors.male.pant.level_4;
+        }
+        else {
+            if (level === 1) return Info.colors.female.pant.level_1;
+            if (level === 2) return Info.colors.female.pant.level_2;
+            if (level === 3) return Info.colors.female.pant.level_3;
+            if (level === 4) return Info.colors.female.pant.level_4;
+        }
+    }
+    else {
+        if (CurrentUser.gender === "male") {
+            if (level === 1) return Info.colors.male.shoes.level_1;
+            if (level === 2) return Info.colors.male.shoes.level_2;
+            if (level === 3) return Info.colors.male.shoes.level_3;
+        }
+        else {
+            if (level === 1) return Info.colors.female.shoes.level_1;
+            if (level === 2) return Info.colors.female.shoes.level_2;
+            if (level === 3) return Info.colors.female.shoes.level_3;
+        }
+    }
+};
 
 const upgradeWithSilverBtn = document.getElementById("upgrade-with-silver");
 const upgradeWithGoldBtn = document.getElementById("upgrade-with-gold");

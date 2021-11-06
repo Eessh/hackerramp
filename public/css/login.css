@@ -13,7 +13,7 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    background-color: cornsilk;
+    background-color: #ECE3F0;
 }
 
 span {
@@ -36,7 +36,7 @@ label {
 .input {
     padding: 0.7rem;
     margin-bottom: 1rem;
-    outline: 1px solid lightcoral;
+    outline: 1px solid #D3BBDD;
     border: none;
     border-radius: 0.5rem;
     transition: all 0.1s ease-in-out;
@@ -45,15 +45,15 @@ label {
     font-size: 1.05rem;
 }
 .input:focus {
-    outline: 2px solid lightcoral;
-    box-shadow: 0 0 20px 2px lightcoral;
+    outline: 2px solid #D3BBDD;
+    box-shadow: 0 0 20px 2px #D3BBDD;
 }
 button {
     /* width: fit-content;
     height: fit-content; */
     margin-top: 1.8rem !important;
     padding: 0.7rem 0.7rem 0.7rem 0.7rem;
-    outline: 1px solid lightcoral;
+    outline: 1px solid #D3BBDD;
     border: none;
     border-radius: 0.5rem !important;
     transition: all 0.1s ease-in-out;
@@ -67,9 +67,9 @@ button {
 }
 button:hover {
     color: black;
-    background-color: lightpink;
-    outline: 2px solid lightcoral;
-    box-shadow: 0 0 20px 2px lightcoral;
+    background-color: #d5b2e4;
+    outline: 2px solid #D3BBDD;
+    box-shadow: 0 0 20px 2px #D3BBDD;
 }
 button:hover > .btn-icon {
     transform: translateX(0.5rem);

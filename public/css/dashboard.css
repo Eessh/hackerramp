@@ -14,7 +14,7 @@
     align-items: center;
     justify-content: flex-start;
     padding: 0;
-    background-color: cornsilk;
+    background-color: #ECE3F0;
 }
 
 .navbar {
@@ -73,7 +73,7 @@
 }
 .logout:hover,
 .home:hover {
-    background-color: lightpink;
+    background-color: #D3BBDD;
     border-radius: 1rem;
 }
 
@@ -157,7 +157,7 @@
     width: 90%;
     height: 35%;
     margin: 1rem 0 1rem 0;
-    /* background-color: lightpink; */
+    /* background-color: #D3BBDD; */
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
@@ -169,7 +169,7 @@
     height: 50%;
     margin: 1rem 0 1rem 0;
     padding: 1rem;
-    background-color: lightpink;
+    background-color: #D3BBDD;
     border-radius: 1rem;
     display: flex;
     flex-direction: row;
@@ -181,7 +181,7 @@
     flex: 1;
     /* width: 40% !important; */
     height: 90% !important;
-    background-color: cornsilk !important;
+    background-color: #ECE3F0 !important;
     padding: 1rem;
     margin: 1rem;
     border-radius: 1rem;
@@ -280,7 +280,7 @@
     flex: 1;
     height: 1rem;
     border-radius: 1rem;
-    background-color: #F7DAD9 !important;
+    background-color: #D3BBDD !important;
 }
 .progress-bar-fg,
 .progress-bar-fg-1,
@@ -289,7 +289,7 @@
 .progress-bar-fg-4 {
     height: 100%;
     border-radius: 1rem;
-    background-color: lightpink;
+    background-color: #C26DBC;
     transition: all 2s ease-in-out;
 }
 @keyframes progressForward1 {
@@ -445,7 +445,7 @@
 }
 .upgrade-icon:hover {
     transform: translateY(-0.2rem) scale(1.1);
-    box-shadow: 0 5px 15px 2px lightpink;
+    box-shadow: 0 5px 15px 2px #D3BBDD;
 }
 
 
@@ -474,7 +474,7 @@
     width: 40%;
     height: 40%;
     border-radius: 1rem;
-    background-color: cornsilk;
+    background-color: #ECE3F0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -531,7 +531,7 @@
     align-items: center !important;
     justify-content: space-evenly !important;
     padding: 2rem;
-    border: 2px solid hotpink;
+    border: 2.5px solid hotpink;
     border-radius: 1rem;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
@@ -565,7 +565,7 @@ button {
     height: fit-content; */
     margin-top: 1.8rem !important;
     padding: 1rem;
-    outline: 1px solid lightcoral;
+    outline: 1px solid #EEB5EB;
     border: none;
     border-radius: 0.5rem !important;
     transition: all 0.1s ease-in-out;
@@ -579,9 +579,9 @@ button {
 }
 button:hover {
     color: black;
-    background-color: lightpink;
-    outline: 2px solid lightcoral;
-    box-shadow: 0 0 20px 2px lightcoral;
+    background-color: #D3BBDD;
+    outline: 2px solid #EEB5EB;
+    box-shadow: 0 0 20px 2px #EEB5EB;
 }
 button:hover > .btn-icon {
     transform: translateX(0.5rem);
