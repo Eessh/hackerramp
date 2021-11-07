@@ -56,8 +56,8 @@ let Info = {
         male: {
             shirt: {
                 level_0: "gray",
-                level_1: "#FFF4BD",
-                level_2: "#F4B9B8",
+                level_1: "#EE9B00",
+                level_2: "#AE2012",
                 level_3: "#85D2D0",
                 level_4: "#887BB0",
             },
@@ -70,9 +70,9 @@ let Info = {
             },
             shoes: {
                 level_0: "black",
-                level_1: "#FFF4BD",
-                level_2: "#F4B9B8",
-                level_3: "#85D2D0",
+                level_1: "#7F5539",
+                level_2: "#1D3557",
+                level_3: "#9B2226",
             },
         },
         female: {
