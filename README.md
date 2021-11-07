@@ -1,9 +1,3 @@
-# hackerramp
-
-## Gamifying Myntra
-
-### To run on Local Server
-+ If you have already cloned: `git pull`
-+ Clone: `git clone https://github.com/Eessh/hackerramp`
-+ Change directory: `cd hackerramp/`
-+ Start server: `firebase serve`
+# Myntra Hackerramp 2021
+# Theme GAMIFY
+# Hosted website link : https://hackerramp-5a473.web.app
