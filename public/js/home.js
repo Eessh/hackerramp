@@ -8,11 +8,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js";
 
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCvoDiUSNynP1odAewxDf9n3EKhWjhgmFQ",
     authDomain: "hackerramp-5a473.firebaseapp.com",
@@ -52,10 +48,8 @@ onAuthStateChanged(auth, async (user) => {
         // doc.data() will be undefined in this case
         console.log("No such document!");
       }
-      // ...
     } else {
       // User is signed out
-      // ...
       console.log("unable to retireve user");
     }
 })();
@@ -68,7 +62,6 @@ document.querySelector(".logout").addEventListener("click", (e) => {
         console.log("done");
         // Sign-out successful.
     }).catch((error) => {
-        // An error happened.
         console.log("Error occured when sigining out", error);
     });
 });
