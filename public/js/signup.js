@@ -3,7 +3,7 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
