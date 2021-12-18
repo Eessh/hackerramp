@@ -6,10 +6,7 @@ import {
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCvoDiUSNynP1odAewxDf9n3EKhWjhgmFQ",
     authDomain: "hackerramp-5a473.firebaseapp.com",
@@ -30,11 +27,9 @@ form.addEventListener("submit", (event) => {
 
     const email = form["email"].value;
     const password = form["password"].value;
-    // const gender = form["gender"].value;
 
     console.log(email);
     console.log(password);
-    // console.log(gender);
 
     signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
@@ -42,14 +37,11 @@ form.addEventListener("submit", (event) => {
     const user = userCredential.user;
     console.log("user: ", user);
     window.location.replace("../home.html");
-    // ...
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log("errorcode: ", errorCode);
     console.log("errorMessage: ", errorMessage);
-
   });
-
 })
