@@ -1,9 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js";
 import {
     getAuth,
-    createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
 
 // Firebase configuration
@@ -32,16 +30,14 @@ form.addEventListener("submit", (event) => {
     console.log(password);
 
     signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    console.log("user: ", user);
-    window.location.replace("../home.html");
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log("errorcode: ", errorCode);
-    console.log("errorMessage: ", errorMessage);
-  });
+    .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log("user: ", user);
+        window.location.replace("../home.html");
+    })
+    .catch((error) => {
+        console.log("errorcode: ", error.code);
+        console.log("errorMessage: ", error.message);
+    });
 })
