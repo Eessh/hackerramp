@@ -2,15 +2,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase
 import {
     getAuth,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCvoDiUSNynP1odAewxDf9n3EKhWjhgmFQ",
     authDomain: "hackerramp-5a473.firebaseapp.com",
@@ -58,31 +53,19 @@ form.addEventListener("submit", async (event) => {
     const password = form["password"].value;
     const gender = form["gender"].value;
 
-    console.log(email);
-    console.log(password);
-    console.log(gender);
-
     createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
-        // Signed in 
         const user = userCredential.user;
-        console.log("user: ", user);
-        // ...
 
         await setDoc(doc(db, "gender", email), {
             gender: gender
         });
-
         await setDoc(doc(db, "users", email), defaults);
 
         window.location.replace("../home.html");
-
     })
     .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log("errorcode: ", errorCode);
-        console.log("errorMessage: ", errorMessage);
-        // ..
+        console.log("errorcode: ", error.code);
+        console.log("errorMessage: ", error.message);
     });
 });
