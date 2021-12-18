@@ -57,7 +57,6 @@ document.querySelector(".logout").addEventListener("click", (e) => {
     console.log("loggin out ...")
     signOut(auth).then(() => {
         window.location.replace("../login.html");
-        console.log("done");
         // Sign-out successful.
     }).catch((error) => {
         console.log("Error occured when sigining out", error);
@@ -69,18 +68,15 @@ form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const bill = form["bill"].value;
-    console.log("bill", bill);
 
     const userCoinsdocRef = doc(db, "users", currentUser.email);
     const snapshot = await getDoc(userCoinsdocRef);
 
     if (snapshot.exists()) {
-        console.log("Document data:", snapshot.data());
         fetchedCoins = snapshot.data().coins;
 
         coins = getCoins(fetchedCoins, bill).finalCoins;
         diffCoins = getCoins(fetchedCoins, bill).diff;
-        console.log("diffCoins: ", diffCoins);
     }
     else {
         // doc.data() will be undefined in this case
@@ -187,7 +183,5 @@ const hidePopup = async (e) => {
     e.preventDefault();
     popup.classList.replace("popup-show", "popup-hide");
     popupBackground.classList.replace("popup-show", "popup-hide");
-    console.log("clicked: popup-close");
-    console.log("done");
     window.location.replace("../dashboard.html")
 };
