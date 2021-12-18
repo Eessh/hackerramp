@@ -35,18 +35,8 @@ onAuthStateChanged(auth, async (user) => {
       console.log("user: ", user);
       console.log("email: ", user.email);
       currentUser = user;
-
-      const userGenderdocRef = doc(db, "gender", user.email);
-      const sanpshot = await getDoc(userGenderdocRef);
-
-      if (sanpshot.exists()) {
-        console.log("Document data:", sanpshot.data());
-      }
-      else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-    } else {
+    }
+    else {
       // User is signed out
       console.log("unable to retireve user");
     }
